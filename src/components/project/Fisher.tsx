@@ -2,6 +2,7 @@ import { fisher } from "@/lib/content";
 import { SectionHeader } from "../SectionHeader";
 import { DeviceMockup } from "./DeviceMockup";
 import { RegexDemo } from "./RegexDemo";
+import { FisherPinned } from "./FisherPinned";
 
 const TONE: Record<string, string> = {
   high: "before:bg-[#e5484d]",
@@ -42,7 +43,9 @@ export function Fisher() {
           </p>
           <p className="mt-3 text-[0.9375rem] text-fg-3">{fisher.team}</p>
         </SectionHeader>
-
+      </div>
+      <FisherPinned />
+      <div className="mx-auto max-w-[68rem] px-5 sm:px-8">
         <div className="mt-20 space-y-28 md:space-y-36">
           <Chapter
             title="Check the text where you read it."
