@@ -44,3 +44,8 @@ I took an active part in class discussions and interactions. Some earned me star
 - Sarcasm in the mother tongue: "Donkey can't smell camphor"
 - Metaphor: "Two roads diverged in a yellow wood" (Robert Frost)
 - Reviewing an ancient Kamba Ramayanam passage translated by an LLM against the actual translation, and checking whether they mean the same
+
+## Contact
+- GitHub: https://github.com/InfiKnight-TGP
+- LinkedIn: https://www.linkedin.com/in/dineshrajn
+- Email: dineshraj.n2023@vitstudent.ac.in

@@ -39,10 +39,10 @@ export function Portrait() {
     >
       <motion.div
         style={{ rotateX, rotateY, scale }}
-        className="relative motion-reduce:transform-none! aspect-[4/5] overflow-hidden rounded-[2rem] bg-[#0c0c0e] shadow-[var(--shadow-lg)]"
+        className="relative motion-reduce:transform-none! aspect-[4/5] overflow-hidden rounded-[2rem] portrait-backdrop shadow-[var(--shadow-lg)]"
       >
         <Image
-          src="/portrait.jpg"
+          src="/portrait.webp"
           alt="Portrait of Dinesh Raj N"
           width={880}
           height={1100}
@@ -53,7 +53,7 @@ export function Portrait() {
         />
         <motion.div style={{ opacity: blur }} className="absolute inset-0 motion-reduce:hidden" aria-hidden>
             <Image
-              src="/portrait.jpg"
+              src="/portrait.webp"
               alt=""
               width={880}
               height={1100}

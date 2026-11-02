@@ -19,6 +19,10 @@
   --scrim: rgb(0 0 0 / 0.28);
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.05);
   --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.06), 0 24px 60px -12px rgb(0 0 0 / 0.22);
+  /* Backdrop behind the cut-out portrait: soft studio grey that matches the page. */
+  --portrait-a: #ecebe7;
+  --portrait-b: #cdcac4;
+  --portrait-glow: rgb(255 255 255 / 0.85);
 
   /* Critically damped spring (response 0.4 s) sampled for CSS-only, non-gesture motion. */
   --ease-spring: linear(0, 0.087, 0.258, 0.433, 0.584, 0.703, 0.793, 0.857, 0.903, 0.935, 0.956, 0.971, 0.981, 0.988, 0.992, 0.995, 1);
@@ -47,6 +51,9 @@
     --scrim: rgb(0 0 0 / 0.55);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
     --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.4), 0 24px 60px -12px rgb(0 0 0 / 0.7);
+    --portrait-a: #2b2e38;
+    --portrait-b: #101116;
+    --portrait-glow: rgb(120 140 200 / 0.22);
   }
 }
 
@@ -176,6 +183,12 @@ img {
   color: var(--fg);
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.portrait-backdrop {
+  background:
+    radial-gradient(60% 45% at 50% 32%, var(--portrait-glow), transparent 70%),
+    linear-gradient(165deg, var(--portrait-a), var(--portrait-b));
 }
 
 /* Instant feedback on press; release springs back via the same short curve. */

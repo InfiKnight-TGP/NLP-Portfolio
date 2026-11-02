@@ -82,3 +82,9 @@ export const interaction = {
     },
   ],
 };
+
+export const contact = [
+  { label: "GitHub", handle: "InfiKnight-TGP", href: "https://github.com/InfiKnight-TGP" },
+  { label: "LinkedIn", handle: "dineshrajn", href: "https://www.linkedin.com/in/dineshrajn" },
+  { label: "Email", handle: "dineshraj.n2023@vitstudent.ac.in", href: "mailto:dineshraj.n2023@vitstudent.ac.in" },
+];

@@ -2,6 +2,7 @@ import { fisher, handsOn, interaction, person } from "@/lib/content";
 import { SectionHeader } from "./SectionHeader";
 import { Pipeline } from "./hands-on/Pipeline";
 import { FlipCards } from "./interaction/FlipCards";
+import { Contact } from "./contact/Contact";
 
 export function HandsOn() {
   return (
@@ -41,6 +42,7 @@ export function Closing() {
           {fisher.honesty}
         </p>
       </section>
+      <Contact />
       <footer className="mx-auto max-w-[68rem] px-5 py-10 text-[0.875rem] text-fg-3 sm:px-8">
         <p>
           {person.name} · {person.courseCode} {person.courseTitle} · {person.university} ·{" "}
