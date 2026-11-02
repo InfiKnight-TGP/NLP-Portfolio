@@ -7,7 +7,7 @@ export function Hero() {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="mx-auto grid max-w-[68rem] items-center gap-12 px-5 pt-12 pb-20 sm:px-8 md:grid-cols-[1.1fr_1fr] md:pt-20 md:pb-28"
+      className="mx-auto grid max-w-[68rem] items-center gap-12 px-5 pt-12 pb-8 sm:px-8 md:grid-cols-[1.1fr_1fr] md:pt-20 md:pb-12"
     >
       <div>
         <p className="eyebrow rise" style={{ "--i": 0 } as React.CSSProperties}>
