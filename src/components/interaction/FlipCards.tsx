@@ -6,7 +6,7 @@ import { interaction } from "@/lib/content";
 import { SPRING } from "@/lib/physics";
 
 const face =
-  "absolute inset-0 flex flex-col rounded-[var(--radius-lg)] p-7 [backface-visibility:hidden] motion-reduce:[backface-visibility:visible] motion-reduce:transition-opacity motion-reduce:duration-200";
+  "absolute inset-0 flex flex-col rounded-[var(--radius-lg)] p-7 [backface-visibility:hidden] still:[backface-visibility:visible] still:transition-opacity still:duration-200";
 
 function FlipCard({ kind, front, back }: (typeof interaction.cards)[number]) {
   const [flipped, setFlipped] = useState(false);
@@ -23,11 +23,11 @@ function FlipCard({ kind, front, back }: (typeof interaction.cards)[number]) {
           initial={false}
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={SPRING}
-          className="relative h-full w-full [transform-style:preserve-3d] motion-reduce:transform-none!"
+          className="relative h-full w-full [transform-style:preserve-3d] still:transform-none!"
         >
           <span
             aria-hidden={flipped}
-            className={`${face} card motion-reduce:group-data-[flipped=true]:opacity-0`}
+            className={`${face} card still:group-data-[flipped=true]:opacity-0`}
           >
             <span className="eyebrow">{kind}</span>
             <span className="display mt-auto text-[2.25rem]">{front}</span>
@@ -35,7 +35,7 @@ function FlipCard({ kind, front, back }: (typeof interaction.cards)[number]) {
           </span>
           <span
             aria-hidden={!flipped}
-            className={`${face} bg-fg text-bg shadow-[var(--shadow-lg)] [transform:rotateY(180deg)] motion-reduce:transform-none! motion-reduce:opacity-0 motion-reduce:group-data-[flipped=true]:opacity-100`}
+            className={`${face} bg-fg text-bg shadow-[var(--shadow-lg)] [transform:rotateY(180deg)] still:transform-none! still:opacity-0 still:group-data-[flipped=true]:opacity-100`}
           >
             <span className="eyebrow text-bg/70!">{kind}</span>
             <span className="mt-auto text-[1.25rem] leading-snug font-semibold tracking-[-0.01em] text-pretty">

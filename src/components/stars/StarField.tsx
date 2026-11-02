@@ -1,7 +1,8 @@
 "use client";
 
+import { useStill } from "@/lib/motionPrefs";
 import { useRef, useState } from "react";
-import { motion, useMotionValue, useReducedMotion, useTransform } from "motion/react";
+import { motion, useMotionValue, useTransform } from "motion/react";
 import { stars } from "@/lib/content";
 import { clamp, project, settle } from "@/lib/physics";
 import { useDrag } from "@/lib/useDrag";
@@ -32,7 +33,7 @@ export function StarField() {
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const starRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const reduced = useReducedMotion() ?? false;
+  const reduced = useStill();
   const x = useMotionValue(0);
   const farX = useTransform(x, (v) => v * 0.45);
   const [open, setOpen] = useState<number | null>(null);

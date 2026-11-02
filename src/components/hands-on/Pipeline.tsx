@@ -148,7 +148,7 @@ export function Pipeline() {
   return (
     <div className="relative">
       <div aria-hidden className="absolute top-2 bottom-2 left-[0.6875rem] w-0.5 rounded-full bg-[var(--hairline)]">
-        <motion.div style={{ scaleY: fill }} className="h-full w-full origin-top rounded-full bg-accent" />
+        <motion.div style={{ scaleY: fill }} className="h-full w-full origin-top rounded-full bg-accent still:transform-none!" />
       </div>
       <ol ref={ref} className="space-y-6">
         {STEPS.map((s, i) => (

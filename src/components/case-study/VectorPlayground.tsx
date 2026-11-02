@@ -1,12 +1,12 @@
 "use client";
 
+import { useStill } from "@/lib/motionPrefs";
 import { useRef, useState } from "react";
 import {
   animate,
   motion,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -31,7 +31,7 @@ function cosine(ax: number, ay: number, bx: number, by: number) {
 
 export function VectorPlayground() {
   const svg = useRef<SVGSVGElement>(null);
-  const reduced = useReducedMotion() ?? false;
+  const reduced = useStill();
   const hx = useMotionValue(0.75);
   const hy = useMotionValue(0.2);
   const [nearest, setNearest] = useState(() => best(0.75, 0.2));

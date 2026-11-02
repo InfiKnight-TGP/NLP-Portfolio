@@ -28,7 +28,7 @@ export function DeviceMockup({
     <div ref={ref} className="mx-auto w-full max-w-[22rem]">
       <motion.figure
         style={{ y, rotate, scale }}
-        className="overflow-hidden rounded-[1.375rem] bg-[#1b1d22] p-1.5 shadow-[var(--shadow-lg)] ring-1 ring-black/10 motion-reduce:transform-none! dark:ring-white/12"
+        className="overflow-hidden rounded-[1.375rem] bg-[#1b1d22] p-1.5 shadow-[var(--shadow-lg)] ring-1 ring-black/10 still:transform-none! dark:ring-white/12"
       >
         <div aria-hidden className="flex gap-1.5 px-2.5 pt-1.5 pb-2.5">
           {["#ff5f57", "#febc2e", "#28c840"].map((c) => (

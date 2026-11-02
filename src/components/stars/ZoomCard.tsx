@@ -1,8 +1,9 @@
 "use client";
 
+import { useStill } from "@/lib/motionPrefs";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { animate, motion, useMotionValue, useMotionValueEvent, useReducedMotion } from "motion/react";
+import { animate, motion, useMotionValue, useMotionValueEvent } from "motion/react";
 import { band, clamp, project, SETTLE_REDUCED, SPRING, SPRING_FLICK } from "@/lib/physics";
 import { stars } from "@/lib/content";
 
@@ -15,7 +16,7 @@ const MAX = 4;
  */
 export function ZoomCard() {
   const box = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion() ?? false;
+  const reduced = useStill();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const s = useMotionValue(1);

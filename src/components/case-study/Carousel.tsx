@@ -1,7 +1,8 @@
 "use client";
 
+import { useStill } from "@/lib/motionPrefs";
 import { useRef, useState } from "react";
-import { motion, useMotionValue, useReducedMotion } from "motion/react";
+import { motion, useMotionValue } from "motion/react";
 import { caseStudy } from "@/lib/content";
 import { project, settle } from "@/lib/physics";
 import { useDrag } from "@/lib/useDrag";
@@ -17,7 +18,7 @@ const TONE: Record<string, string> = {
 export function Carousel() {
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLUListElement>(null);
-  const reduced = useReducedMotion() ?? false;
+  const reduced = useStill();
   const x = useMotionValue(0);
   const [index, setIndex] = useState(0);
   const [atEnd, setAtEnd] = useState(false);

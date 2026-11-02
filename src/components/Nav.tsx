@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { SPRING } from "@/lib/physics";
+import { useMotionPrefs } from "@/lib/motionPrefs";
 
 const LINKS = [
   { id: "stars", label: "Stars" },
@@ -14,6 +15,7 @@ const LINKS = [
 
 export function Nav() {
   const [active, setActive] = useState<string | null>(null);
+  const { paused, setPaused, reduced } = useMotionPrefs();
 
   useEffect(() => {
     const io = new IntersectionObserver(
@@ -61,6 +63,20 @@ export function Nav() {
             </li>
           ))}
         </ul>
+        <button
+          type="button"
+          aria-pressed={paused || reduced}
+          disabled={reduced}
+          onClick={() => setPaused(!paused)}
+          title={reduced ? "Motion is reduced by your system setting" : undefined}
+          className="press flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-[var(--hairline)] px-2.5 text-[0.8125rem] font-medium text-fg aria-pressed:text-accent disabled:opacity-60"
+        >
+          <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden fill="currentColor">
+            {paused || reduced ? <path d="M4 2.5v11l9-5.5z" /> : <path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" />}
+          </svg>
+          <span className="sr-only sm:not-sr-only">Pause motion</span>
+          <span className="sr-only">{reduced ? " (reduced by system setting)" : ""}</span>
+        </button>
       </nav>
     </header>
   );

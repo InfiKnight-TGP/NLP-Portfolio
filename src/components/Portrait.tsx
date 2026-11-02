@@ -1,8 +1,9 @@
 "use client";
 
+import { useStill } from "@/lib/motionPrefs";
 import Image from "next/image";
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { SPRING_OPTS } from "@/lib/physics";
 
 /**
@@ -12,7 +13,7 @@ import { SPRING_OPTS } from "@/lib/physics";
  */
 export function Portrait() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useStill();
   const rotateX = useSpring(0, SPRING_OPTS);
   const rotateY = useSpring(0, SPRING_OPTS);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.2", "end start"] });
@@ -39,7 +40,7 @@ export function Portrait() {
     >
       <motion.div
         style={{ rotateX, rotateY, scale }}
-        className="relative motion-reduce:transform-none! aspect-[4/5] overflow-hidden rounded-[2rem] portrait-backdrop shadow-[var(--shadow-lg)]"
+        className="relative still:transform-none! aspect-[4/5] overflow-hidden rounded-[2rem] portrait-backdrop shadow-[var(--shadow-lg)]"
       >
         <Image
           src="/portrait.webp"
@@ -51,7 +52,7 @@ export function Portrait() {
           fetchPriority="high"
           className="h-full w-full object-cover"
         />
-        <motion.div style={{ opacity: blur }} className="absolute inset-0 motion-reduce:hidden" aria-hidden>
+        <motion.div style={{ opacity: blur }} className="absolute inset-0 still:hidden" aria-hidden>
             <Image
               src="/portrait.webp"
               alt=""

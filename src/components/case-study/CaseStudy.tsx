@@ -8,7 +8,7 @@ export function CaseStudy() {
     <section
       id="case-study"
       aria-labelledby="case-study-title"
-      className="overflow-x-clip bg-bg-2 py-[clamp(5rem,12vw,9rem)]"
+      className="overflow-x-clip py-[clamp(5rem,12vw,9rem)]"
     >
       <div className="mx-auto max-w-[68rem] px-5 sm:px-8">
         <SectionHeader id="case-study" eyebrow="Case Study" title="Turning text into vectors.">

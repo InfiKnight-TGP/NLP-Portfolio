@@ -1,8 +1,9 @@
 "use client";
 
+import { useStill } from "@/lib/motionPrefs";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { animate, motion, useMotionValue, useReducedMotion } from "motion/react";
+import { animate, motion, useMotionValue } from "motion/react";
 import { project, SETTLE_REDUCED, SPRING, SPRING_FLICK } from "@/lib/physics";
 import { useDrag } from "@/lib/useDrag";
 import { StarCount } from "./StarIcon";
@@ -24,7 +25,7 @@ export function StarSheet({
 }) {
   const sheet = useRef<HTMLDivElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
-  const reduced = useReducedMotion() ?? false;
+  const reduced = useStill();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const scale = useMotionValue(1);
@@ -145,7 +146,7 @@ export function StarSheet({
       <motion.div
         style={{ opacity: scrim }}
         onClick={() => close()}
-        className="absolute inset-0 bg-[var(--scrim)] backdrop-blur-[6px] motion-reduce:backdrop-blur-none"
+        className="absolute inset-0 bg-[var(--scrim)] backdrop-blur-[6px] still:backdrop-blur-none"
         aria-hidden
       />
       <div className="pointer-events-none absolute inset-0 flex items-end justify-center sm:items-center sm:p-6">
