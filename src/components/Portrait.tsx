@@ -1,27 +1,26 @@
 "use client";
 
-import { useStill } from "@/lib/motionPrefs";
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { useStill } from "@/lib/motionPrefs";
 import { SPRING_OPTS } from "@/lib/physics";
 
 /**
- * Portrait in a glass-edged frame. Tilts toward a mouse pointer (springs), and as the hero
- * scrolls away it scales down while a pre-blurred copy fades in: blur via opacity only,
- * so every frame stays on the compositor.
+ * Portrait in a glass-edged frame. On load a soft wipe reveals it and a light ring travels once
+ * around the edge (CSS, one-time). It tilts toward a mouse pointer (springs), and as the hero
+ * scrolls away a pre-blurred copy fades in: blur via opacity only, so frames stay on the compositor.
  */
 export function Portrait() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useStill();
+  const still = useStill();
   const rotateX = useSpring(0, SPRING_OPTS);
   const rotateY = useSpring(0, SPRING_OPTS);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.2", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
   const blur = useTransform(scrollYProgress, [0.1, 0.8], [0, 0.9]);
 
   function onPointerMove(e: React.PointerEvent) {
-    if (reduced || e.pointerType !== "mouse") return;
+    if (still || e.pointerType !== "mouse") return;
     const r = e.currentTarget.getBoundingClientRect();
     rotateY.set(((e.clientX - r.left) / r.width - 0.5) * 12);
     rotateX.set(-((e.clientY - r.top) / r.height - 0.5) * 10);
@@ -38,21 +37,23 @@ export function Portrait() {
       onPointerLeave={onPointerLeave}
       className="mx-auto w-full max-w-[20rem] [perspective:1000px] sm:max-w-[24rem]"
     >
-      <motion.div
-        style={{ rotateX, rotateY, scale }}
-        className="relative still:transform-none! aspect-[4/5] overflow-hidden rounded-[2rem] portrait-backdrop shadow-[var(--shadow-lg)]"
-      >
-        <Image
-          src="/portrait.webp"
-          alt="Portrait of Dinesh Raj N"
-          width={880}
-          height={1100}
-          sizes="(min-width: 640px) 24rem, 20rem"
-          preload
-          fetchPriority="high"
-          className="h-full w-full object-cover"
-        />
-        <motion.div style={{ opacity: blur }} className="absolute inset-0 still:hidden" aria-hidden>
+      <motion.div style={{ rotateX, rotateY }} className="relative still:transform-none!">
+        {/* One-time light ring: a rotating conic gradient, visible only as a 2px rim. */}
+        <div aria-hidden className="ring-light pointer-events-none absolute -inset-[2px] overflow-hidden rounded-[calc(2rem+2px)]">
+          <span className="ring-light-sweep" />
+        </div>
+        <div className="portrait-backdrop relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-[var(--shadow-lg)]">
+          <Image
+            src="/portrait.webp"
+            alt="Portrait of Dinesh Raj N"
+            width={880}
+            height={1100}
+            sizes="(min-width: 640px) 24rem, 20rem"
+            preload
+            fetchPriority="high"
+            className="h-full w-full object-cover"
+          />
+          <motion.div style={{ opacity: blur }} className="absolute inset-0 still:hidden" aria-hidden>
             <Image
               src="/portrait.webp"
               alt=""
@@ -61,12 +62,15 @@ export function Portrait() {
               sizes="(min-width: 640px) 24rem, 20rem"
               className="h-full w-full scale-110 object-cover blur-xl"
             />
-        </motion.div>
-        {/* Glass edge: a bright rim with light catching the top. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[2rem] shadow-[inset_0_0_0_1px_rgb(255_255_255/0.18),inset_0_1px_0_rgb(255_255_255/0.45)] [background:linear-gradient(160deg,rgb(255_255_255/0.14),transparent_35%)]"
-        />
+          </motion.div>
+          {/* Soft wipe: a backdrop-coloured veil with a feathered edge slides up and away. */}
+          <div aria-hidden className="portrait-wipe pointer-events-none absolute inset-x-0 -top-1/2 h-[200%]" />
+          {/* Glass edge: a bright rim with light catching the top. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-[2rem] shadow-[inset_0_0_0_1px_rgb(255_255_255/0.18),inset_0_1px_0_rgb(255_255_255/0.45)] [background:linear-gradient(160deg,rgb(255_255_255/0.14),transparent_35%)]"
+          />
+        </div>
       </motion.div>
     </div>
   );

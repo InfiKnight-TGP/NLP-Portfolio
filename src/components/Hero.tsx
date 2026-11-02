@@ -1,42 +1,32 @@
 import { person } from "@/lib/content";
 import { Portrait } from "./Portrait";
+import { HeroStage } from "./hero/HeroStage";
+
+const i = (n: number) => ({ "--i": n }) as React.CSSProperties;
 
 export function Hero() {
   const words = person.name.split(" ");
   return (
-    <section
-      id="top"
-      aria-labelledby="hero-title"
-      className="mx-auto grid max-w-[68rem] items-center gap-12 px-5 pt-12 pb-8 sm:px-8 md:grid-cols-[1.1fr_1fr] md:pt-20 md:pb-12"
-    >
-      <div>
-        <p className="eyebrow rise" style={{ "--i": 0 } as React.CSSProperties}>
+    <HeroStage>
+      <div id="hero-text">
+        <p className="eyebrow rise" style={i(0)}>
           {person.university} · {person.courseCode} course portfolio
         </p>
-        <h1
-          id="hero-title"
-          className="display mt-4 text-[clamp(3.25rem,2rem+7vw,6.5rem)]"
-        >
-          {words.map((w, i) => (
-            <span key={w}>
-              <span className="rise inline-block" style={{ "--i": i + 1 } as React.CSSProperties}>
+        {/* The name assembles from dots (HeroIntro); the text itself fades in as they land. */}
+        <h1 id="hero-title" className="display mt-4 text-[clamp(3.25rem,2rem+7vw,6.5rem)]">
+          {words.map((w, n) => (
+            <span key={w} data-word={w}>
+              <span className="intro-word inline-block" style={i(n)}>
                 {w}
               </span>
-              {i < words.length - 1 && " "}
+              {n < words.length - 1 && " "}
             </span>
           ))}
         </h1>
-        <p
-          className="lead rise mt-6 max-w-[30rem]"
-          style={{ "--i": words.length + 1 } as React.CSSProperties}
-        >
+        <p className="lead rise mt-6 max-w-[30rem]" style={i(1)}>
           What I learned in {person.courseTitle}, {person.semester}.
         </p>
-        <ul
-          aria-label="Course details"
-          className="rise mt-8 flex flex-wrap gap-2"
-          style={{ "--i": words.length + 2 } as React.CSSProperties}
-        >
+        <ul aria-label="Course details" className="rise mt-8 flex flex-wrap gap-2" style={i(2)}>
           <li className="chip">
             <span className="text-fg-3">Course</span> {person.courseCode} · {person.courseTitle}
           </li>
@@ -49,6 +39,6 @@ export function Hero() {
         </ul>
       </div>
       <Portrait />
-    </section>
+    </HeroStage>
   );
 }

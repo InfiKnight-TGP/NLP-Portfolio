@@ -253,3 +253,117 @@ img {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* ---------- Hero intro (one-time, load-driven) ---------- */
+/* The name fades in exactly as the intro dots land on it (HeroIntro lands at 1.5 s). */
+.intro-word {
+  animation: fade 450ms ease both;
+  animation-delay: calc(1.4s + var(--i, 0) * 80ms);
+}
+
+/* Feathered veil that slides up off the portrait. */
+.portrait-wipe {
+  background: linear-gradient(to bottom, var(--portrait-a) 0%, var(--portrait-a) 68%, transparent 100%);
+  transform: translate3d(0, -100%, 0);
+  animation: wipe 1100ms var(--ease-spring) 250ms both;
+}
+@keyframes wipe {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Light ring: one lap around the rim, then gone. */
+.ring-light {
+  opacity: 0;
+  animation: ring-fade 1700ms ease 800ms both;
+}
+.ring-light-sweep {
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, transparent 0 62%, color-mix(in srgb, var(--accent) 55%, white) 82%, transparent 100%);
+  animation: ring-spin 1700ms cubic-bezier(0.45, 0, 0.2, 1) 800ms both;
+}
+@keyframes ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ring-fade {
+  0% {
+    opacity: 0;
+  }
+  20%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Ambient gradient mesh (slow, faint, pausable) ---------- */
+.mesh-blob {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  opacity: 0.32;
+  animation: drift 32s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.mesh[data-active="true"] .mesh-blob {
+  animation-play-state: running;
+}
+.mesh-a {
+  left: -25vmax;
+  top: -30vmax;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 35%, transparent), transparent 62%);
+}
+.mesh-b {
+  right: -30vmax;
+  top: -10vmax;
+  background: radial-gradient(circle, rgb(175 82 222 / 0.22), transparent 62%);
+  animation-duration: 41s;
+  animation-direction: alternate-reverse;
+}
+.mesh-c {
+  left: 20%;
+  top: 20vmax;
+  background: radial-gradient(circle, rgb(255 179 64 / 0.16), transparent 62%);
+  animation-duration: 53s;
+}
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(8vmax, 5vmax, 0) scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-word {
+    animation: fade 300ms ease both;
+  }
+  .portrait-wipe,
+  .ring-light {
+    display: none;
+  }
+  .mesh-blob {
+    animation: none;
+  }
+}
+[data-motion="still"] .intro-word {
+  animation: fade 300ms ease both;
+}
+[data-motion="still"] .portrait-wipe,
+[data-motion="still"] .ring-light {
+  display: none;
+}
+[data-motion="still"] .mesh-blob {
+  animation: none;
+}
