@@ -1,6 +1,7 @@
 import { fisher } from "@/lib/content";
 import { SectionHeader } from "../SectionHeader";
 import { DeviceMockup } from "./DeviceMockup";
+import { RegexDemo } from "./RegexDemo";
 
 const TONE: Record<string, string> = {
   high: "before:bg-[#e5484d]",
@@ -132,6 +133,8 @@ export function Fisher() {
               is not yet answered: the evaluation data has almost no Indic scam messages.
             </p>
           </aside>
+
+          <RegexDemo />
 
           <div className="max-w-[44rem]">
             <h3 className="display text-[clamp(1.75rem,1.3rem+2vw,2.75rem)]">What I learned</h3>
