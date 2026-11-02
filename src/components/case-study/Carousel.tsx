@@ -70,18 +70,19 @@ export function Carousel() {
       >
         <motion.ul ref={track} style={{ x }} className="flex w-max gap-4">
           {models.map((m, i) => (
-            <li
-              key={m.name}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${i + 1} of ${models.length}: ${m.name}`}
-              className="card flex min-h-[15rem] w-[min(78vw,19rem)] flex-col p-6"
-            >
+            <li key={m.name} className="flex">
+              <div
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${i + 1} of ${models.length}: ${m.name}`}
+                className="card flex min-h-[15rem] w-[min(78vw,19rem)] flex-col p-6"
+              >
               <span className={`self-start rounded-full px-2.5 py-1 text-[0.75rem] font-semibold ${TONE[m.kind]}`}>
                 {m.kind}
               </span>
               <h3 className="display mt-10 text-[1.75rem]">{m.name}</h3>
               <p className="mt-2 text-[0.9375rem] leading-normal text-fg-2">{m.line}</p>
+              </div>
             </li>
           ))}
         </motion.ul>

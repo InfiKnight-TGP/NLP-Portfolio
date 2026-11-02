@@ -50,7 +50,7 @@ function FlipCard({ kind, front, back }: (typeof interaction.cards)[number]) {
 
 export function FlipCards() {
   return (
-    <ul className="grid gap-5 md:grid-cols-3">
+    <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {interaction.cards.map((c) => (
         <FlipCard key={c.front} {...c} />
       ))}

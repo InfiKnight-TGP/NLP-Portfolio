@@ -48,6 +48,7 @@ export function Portrait() {
           height={1100}
           sizes="(min-width: 640px) 24rem, 20rem"
           preload
+          fetchPriority="high"
           className="h-full w-full object-cover"
         />
         <motion.div style={{ opacity: blur }} className="absolute inset-0 motion-reduce:hidden" aria-hidden>

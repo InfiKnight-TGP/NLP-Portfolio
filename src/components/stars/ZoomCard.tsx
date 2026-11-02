@@ -189,7 +189,7 @@ export function ZoomCard() {
             alt=""
             width={587}
             height={1024}
-            sizes="(min-width: 768px) 22rem, 90vw"
+            sizes="22rem"
             draggable={false}
             className="pointer-events-none h-full w-full object-cover"
           />

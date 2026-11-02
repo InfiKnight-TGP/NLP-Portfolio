@@ -32,6 +32,13 @@ export function StarSheet({
   const scrim = useMotionValue(0);
   const closing = useRef(false);
 
+  // Everything behind the dialog is inert while it is open.
+  function setInert(on: boolean) {
+    for (const el of document.body.children) {
+      if (!el.contains(sheet.current)) (el as HTMLElement).inert = on;
+    }
+  }
+
   // Offset + scale that place the sheet exactly over its star.
   function fromStar() {
     const s = sheet.current?.getBoundingClientRect();
@@ -54,19 +61,16 @@ export function StarSheet({
       x.set(0);
       y.set(0);
       scale.set(1);
-      return Promise.all([
-        animate(opacity, target.opacity, SETTLE_REDUCED),
-        animate(scrim, target.scrim, SETTLE_REDUCED),
-      ]);
+      animate(scrim, target.scrim, SETTLE_REDUCED);
+      return animate(opacity, target.opacity, SETTLE_REDUCED);
     }
     const spring = vy ? SPRING_FLICK : SPRING;
-    return Promise.all([
-      animate(x, target.x, spring),
-      animate(y, target.y, { ...spring, velocity: vy }),
-      animate(scale, target.scale, SPRING),
-      animate(opacity, target.opacity, { duration: target.opacity ? 0.15 : 0.3, ease: "easeOut" }),
-      animate(scrim, target.scrim, { duration: 0.3, ease: "easeOut" }),
-    ]);
+    animate(x, target.x, spring);
+    animate(y, target.y, { ...spring, velocity: vy });
+    animate(scale, target.scale, SPRING);
+    animate(scrim, target.scrim, { duration: 0.3, ease: "easeOut" });
+    // Resolves once the sheet is invisible, so focus returns without waiting out the spring's tail.
+    return animate(opacity, target.opacity, { duration: target.opacity ? 0.15 : 0.3, ease: "easeOut" });
   }
 
   function open() {
@@ -78,7 +82,9 @@ export function StarSheet({
     closing.current = true;
     const f = fromStar();
     to({ ...f, opacity: 0, scrim: 0 }, vy).then(() => {
-      if (closing.current) onClosed();
+      if (!closing.current) return;
+      setInert(false); // before onClosed, so focus can return to the star
+      onClosed();
     });
   }
 
@@ -91,17 +97,20 @@ export function StarSheet({
     }
     open();
     closeBtn.current?.focus({ preventScroll: true });
-    // Everything behind the dialog becomes inert while it is open.
-    const others = [...document.body.children].filter(
-      (el) => !el.contains(sheet.current),
-    ) as HTMLElement[];
-    others.forEach((el) => (el.inert = true));
-    return () => others.forEach((el) => (el.inert = false));
+    setInert(true);
+    return () => setInert(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only
   }, []);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      // Done is the dialog's only control, so Tab stays on it rather than leaving the page.
+      if (e.key === "Tab") {
+        e.preventDefault();
+        closeBtn.current?.focus();
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   });
