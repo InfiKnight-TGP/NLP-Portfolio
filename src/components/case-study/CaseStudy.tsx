@@ -1,6 +1,7 @@
 import { caseStudy } from "@/lib/content";
 import { SectionHeader } from "../SectionHeader";
 import { Carousel } from "./Carousel";
+import { CasePinned } from "./CasePinned";
 import { VectorPlayground } from "./VectorPlayground";
 
 export function CaseStudy() {
@@ -18,6 +19,9 @@ export function CaseStudy() {
             </p>
           ))}
         </SectionHeader>
+      </div>
+      <CasePinned />
+      <div className="mx-auto max-w-[68rem] px-5 sm:px-8">
         <div className="mt-12">
           <Carousel />
         </div>
