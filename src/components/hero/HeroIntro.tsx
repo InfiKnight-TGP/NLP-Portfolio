@@ -30,14 +30,15 @@ export function HeroIntro({ titleId }: { titleId: string }) {
     const ctx = cv.getContext("2d");
     if (!ctx) return;
 
-    // Draw each word where the real word sits (outer spans are not transformed by the CSS reveal).
+    // Draw each word where the real word sits (outer spans are not transformed by the CSS reveal),
+    // on an offscreen canvas just the size of the title at 1x: a small read-back.
     const cs = getComputedStyle(title);
     const size = parseFloat(cs.fontSize);
+    const tr = title.getBoundingClientRect();
     const off = document.createElement("canvas");
-    off.width = cv.width;
-    off.height = cv.height;
+    off.width = Math.ceil(tr.width);
+    off.height = Math.ceil(tr.height);
     const o = off.getContext("2d", { willReadFrequently: true })!;
-    o.scale(dpr, dpr);
     o.font = `${cs.fontWeight} ${size}px ${cs.fontFamily}`;
     o.letterSpacing = `${-0.02 * size}px`;
     o.textBaseline = "alphabetic";
@@ -46,16 +47,18 @@ export function HeroIntro({ titleId }: { titleId: string }) {
     const half = (lineH - (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent)) / 2;
     for (const span of title.querySelectorAll<HTMLElement>("[data-word]")) {
       const r = span.getBoundingClientRect();
-      o.fillText(span.dataset.word!, r.left - box.left, r.top - box.top + half + m.fontBoundingBoxAscent);
+      o.fillText(span.dataset.word!, r.left - tr.left, r.top - tr.top + half + m.fontBoundingBoxAscent);
     }
 
     const coarse = matchMedia("(pointer: coarse)").matches;
     const max = coarse ? 450 : 1000;
-    const step = Math.max(2, Math.round((size / 26) * dpr));
+    const step = Math.max(2, Math.round(size / 26));
     const px = o.getImageData(0, 0, off.width, off.height).data;
+    const ox = tr.left - box.left;
+    const oy = tr.top - box.top;
     const targets: [number, number][] = [];
     for (let y = 0; y < off.height; y += step)
-      for (let x = 0; x < off.width; x += step) if (px[(y * off.width + x) * 4 + 3] > 128) targets.push([x / dpr, y / dpr]);
+      for (let x = 0; x < off.width; x += step) if (px[(y * off.width + x) * 4 + 3] > 128) targets.push([ox + x, oy + y]);
     // Even subsample down to the budget.
     const keep = targets.length > max ? targets.filter((_, i) => i % Math.ceil(targets.length / max) === 0) : targets;
 
@@ -96,9 +99,14 @@ export function HeroIntro({ titleId }: { titleId: string }) {
         }
         d.x += d.vx * dt;
         d.y += d.vy * dt;
-        ctx.globalAlpha = appear * (d.accent ? 0.9 : 0.75);
-        ctx.fillStyle = d.accent ? accent : fg;
-        ctx.fillRect(d.x - dot / 2, d.y - dot / 2, dot, dot);
+      }
+      // Two batched passes (one colour each) instead of per-dot state changes.
+      for (const accentPass of [false, true]) {
+        ctx.globalAlpha = appear * (accentPass ? 0.9 : 0.75);
+        ctx.fillStyle = accentPass ? accent : fg;
+        ctx.beginPath();
+        for (const d of dots) if (d.accent === accentPass) ctx.rect(d.x - dot / 2, d.y - dot / 2, dot, dot);
+        ctx.fill();
       }
       if (landed) return finish();
       raf = requestAnimationFrame(frame);

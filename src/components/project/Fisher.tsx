@@ -111,14 +111,14 @@ export function Fisher() {
           </Chapter>
 
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="card p-7 sm:p-9">
+            <div className="card spot p-7 sm:p-9">
               <h3 className="display text-[1.75rem]">Romanized text, several readings.</h3>
               <p className="mt-3 text-fg-2">
                 A transliteration module returns several whole-word candidates for each Romanized
                 word.
               </p>
             </div>
-            <div className="card p-7 sm:p-9">
+            <div className="card spot p-7 sm:p-9">
               <h3 className="display text-[1.75rem]">Measured per source.</h3>
               <p className="mt-3 text-fg-2">
                 Evaluated per source group, with an error analysis and exact McNemar tests.

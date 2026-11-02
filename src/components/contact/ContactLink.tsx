@@ -1,3 +1,9 @@
+"use client";
+
+import { useRef } from "react";
+import { useReveal } from "@/lib/useReveal";
+import { Magnetic } from "../motion/Magnetic";
+
 const ICONS: Record<string, string[]> = {
   GitHub: [
     "M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21",
@@ -8,15 +14,19 @@ const ICONS: Record<string, string[]> = {
 
 export function ContactLink({ label, handle, href }: { label: string; handle: string; href: string }) {
   const external = href.startsWith("http");
+  const icon = useRef<SVGSVGElement>(null);
+  useReveal(icon);
   return (
+    <Magnetic>
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className="card spot press flex items-center gap-4 p-5"
     >
-      <svg viewBox="0 0 24 24" className="h-7 w-7 shrink-0 text-accent" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        {ICONS[label].map((d) => (
-          <path key={d} d={d} />
+      <svg ref={icon} viewBox="0 0 24 24" className="draw-icon h-7 w-7 shrink-0 text-accent" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        {/* Line icons draw themselves in when they come into view (CSS, see .draw-icon). */}
+        {ICONS[label].map((d, i) => (
+          <path key={d} d={d} pathLength={1} style={{ "--i": i } as React.CSSProperties} />
         ))}
       </svg>
       <span className="min-w-0">
@@ -25,5 +35,6 @@ export function ContactLink({ label, handle, href }: { label: string; handle: st
         {external && <span className="sr-only"> (opens in a new tab)</span>}
       </span>
     </a>
+    </Magnetic>
   );
 }

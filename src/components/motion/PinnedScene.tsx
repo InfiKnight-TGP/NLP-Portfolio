@@ -24,7 +24,7 @@ export function PinnedScene({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const still = useStill();
-  const near = useNear(ref, "150% 0px");
+  const near = useNear(ref);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   // One stable value for the scene: follows scroll, or sits at 1 (final state) when still.
   // Hooks downstream subscribe once, so the value object itself must never be swapped.

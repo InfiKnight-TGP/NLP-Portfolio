@@ -28,9 +28,12 @@ export function MotionPrefsProvider({ children }: { children: React.ReactNode })
   }, []);
   const still = paused || reduced;
 
-  // CSS reads this too (the `still:` variant, ambient loops).
+  // CSS reads this too (the `still:` variant, ambient loops). Only ever present when still:
+  // writing it at load would restyle and re-lay out the whole page during hydration.
   useEffect(() => {
-    document.documentElement.dataset.motion = still ? "still" : "live";
+    const root = document.documentElement;
+    if (still) root.dataset.motion = "still";
+    else delete root.dataset.motion;
   }, [still]);
 
   return (
@@ -69,15 +72,49 @@ export function useAmbientActive(ref: React.RefObject<Element | null>, margin = 
   return inView && visible && !still;
 }
 
-/** Becomes true (once) when the element comes within `margin` of the viewport: used to lazy-mount scenes. */
-export function useNear(ref: React.RefObject<Element | null>, margin = "100% 0px") {
+// Scenes wait for the first sign of a visitor (scroll, pointer, key, touch), so a page that is only
+// loaded never pays for them; after that, they mount in idle time as they approach.
+let interacted = false;
+const waiting = new Set<() => void>();
+function onFirstInput(cb: () => void) {
+  if (interacted) return cb();
+  if (!waiting.size) {
+    const go = () => {
+      interacted = true;
+      for (const e of ["scroll", "pointerdown", "keydown", "touchstart", "wheel"]) window.removeEventListener(e, go);
+      waiting.forEach((f) => f());
+      waiting.clear();
+    };
+    for (const e of ["scroll", "pointerdown", "keydown", "touchstart", "wheel"]) window.addEventListener(e, go, { passive: true, once: true });
+  }
+  waiting.add(cb);
+}
+
+/** Becomes true (once) when the element comes within `margin` of the viewport, after first input: used to lazy-mount scenes. */
+export function useNear(ref: React.RefObject<Element | null>, margin = "0px 0px 25% 0px") {
   const [near, setNear] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el || near) return;
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: margin });
+    let idle = 0;
+    // Mount in idle time so a scene never competes with input or the first paint.
+    const ric = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 150));
+    let stopped = false;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !idle)
+          onFirstInput(() => {
+            if (!stopped && !idle) idle = ric(() => setNear(true), { timeout: 600 });
+          });
+      },
+      { rootMargin: margin },
+    );
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      stopped = true;
+      io.disconnect();
+      if (idle) (window.cancelIdleCallback ?? window.clearTimeout)(idle);
+    };
   }, [ref, margin, near]);
   return near;
 }

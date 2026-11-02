@@ -6,6 +6,7 @@ import { motion, useMotionValue } from "motion/react";
 import { caseStudy } from "@/lib/content";
 import { project, settle } from "@/lib/physics";
 import { useDrag } from "@/lib/useDrag";
+import { Magnetic } from "../motion/Magnetic";
 
 const TONE: Record<string, string> = {
   "Word vectors": "bg-[#0071e3]/12 text-[#0058b0] dark:text-[#6cb4ff]",
@@ -76,7 +77,7 @@ export function Carousel() {
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${i + 1} of ${models.length}: ${m.name}`}
-                className="card flex min-h-[15rem] w-[min(78vw,19rem)] flex-col p-6"
+                className="card spot flex min-h-[15rem] w-[min(78vw,19rem)] flex-col p-6"
               >
               <span className={`self-start rounded-full px-2.5 py-1 text-[0.75rem] font-semibold ${TONE[m.kind]}`}>
                 {m.kind}
@@ -93,12 +94,16 @@ export function Carousel() {
           {models[index].name} · {index + 1} of {models.length}
         </p>
         <div className="flex gap-2">
-          <button type="button" className={btn} onClick={() => goTo(index - 1)} disabled={index === 0} aria-label="Previous model">
-            <Chevron dir={-1} />
-          </button>
-          <button type="button" className={btn} onClick={() => goTo(index + 1)} disabled={atEnd} aria-label="Next model">
-            <Chevron dir={1} />
-          </button>
+          <Magnetic>
+            <button type="button" className={btn} onClick={() => goTo(index - 1)} disabled={index === 0} aria-label="Previous model">
+              <Chevron dir={-1} />
+            </button>
+          </Magnetic>
+          <Magnetic>
+            <button type="button" className={btn} onClick={() => goTo(index + 1)} disabled={atEnd} aria-label="Next model">
+              <Chevron dir={1} />
+            </button>
+          </Magnetic>
         </div>
       </div>
     </div>

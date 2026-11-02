@@ -17,7 +17,7 @@ export function RegexDemo() {
   const result = classify(text);
 
   return (
-    <div className="card p-6 sm:p-9">
+    <div className="card spot p-6 sm:p-9">
       <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-full bg-[#f5b300]/20 px-2.5 py-1 text-[0.75rem] font-semibold text-star-ink">
           Simplified demo

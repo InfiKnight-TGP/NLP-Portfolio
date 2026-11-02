@@ -166,7 +166,7 @@ export function Pipeline() {
             >
               {i + 1}
             </span>
-            <div className="card p-5 sm:p-7">
+            <div className="card spot p-5 sm:p-7">
               <h3 className="text-[1.25rem] font-semibold tracking-[-0.01em]">{s.title}</h3>
               <p className="mt-1 text-[0.9375rem] text-fg-2">{s.note}</p>
               <div className="mt-4">{s.body}</div>

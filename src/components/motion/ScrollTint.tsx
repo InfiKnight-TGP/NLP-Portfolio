@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useMotionValue, useScroll, useMotionValueEvent, type MotionValue } from "motion/react";
+import { useScroll, useMotionValueEvent } from "motion/react";
 
 // Each section washes the page in its own faint tint; tints cross-fade with scroll position.
 const TINTS = [
@@ -12,13 +12,10 @@ const TINTS = [
   { id: "class", cls: "bg-[var(--tint-class)]" },
 ];
 
-function Layer({ cls, opacity }: { cls: string; opacity: MotionValue<number> }) {
-  return <motion.div aria-hidden style={{ opacity }} className={`fixed inset-0 -z-10 ${cls}`} />;
-}
-
 export function ScrollTint() {
   const { scrollY } = useScroll();
-  const opacities = [useMotionValue(0), useMotionValue(0), useMotionValue(0), useMotionValue(0), useMotionValue(0)];
+  // Plain divs whose opacity is written directly: no React renders or motion components per frame.
+  const layers = useRef<(HTMLDivElement | null)[]>([]);
   const spans = useRef<{ top: number; bottom: number }[]>([]);
 
   function update() {
@@ -28,7 +25,8 @@ export function ScrollTint() {
     spans.current.forEach(({ top, bottom }, i) => {
       // 1 while the viewport centre is inside the section, easing to 0 over half a viewport outside it.
       const d = mid < top ? top - mid : mid > bottom ? mid - bottom : 0;
-      opacities[i].set(Math.max(0, 1 - d / fade));
+      const el = layers.current[i];
+      if (el) el.style.opacity = String(Math.max(0, 1 - d / fade));
     });
   }
 
@@ -42,10 +40,17 @@ export function ScrollTint() {
       });
       update();
     };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(document.body);
-    return () => ro.disconnect();
+    // Measuring forces a full-page layout: keep it out of the load and hydration window.
+    const ric = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 300));
+    let ro: ResizeObserver | undefined;
+    const id = ric(() => {
+      ro = new ResizeObserver(measure);
+      ro.observe(document.body); // fires once immediately, then on every size change
+    });
+    return () => {
+      (window.cancelIdleCallback ?? window.clearTimeout)(id);
+      ro?.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- measure once; update reads refs
   }, []);
 
@@ -54,7 +59,13 @@ export function ScrollTint() {
   return (
     <>
       {TINTS.map((t, i) => (
-        <Layer key={t.id} cls={t.cls} opacity={opacities[i]} />
+        <div
+          key={t.id}
+          ref={(el) => void (layers.current[i] = el)}
+          aria-hidden
+          style={{ opacity: 0 }}
+          className={`fixed inset-0 -z-10 ${t.cls}`}
+        />
       ))}
     </>
   );

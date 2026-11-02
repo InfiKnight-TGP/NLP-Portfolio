@@ -367,3 +367,97 @@ img {
 [data-motion="still"] .mesh-blob {
   animation: none;
 }
+
+/* ---------- Marquee (slow, faint, pausable) ---------- */
+.marquee-track {
+  animation: marquee 90s linear infinite;
+  animation-play-state: paused;
+}
+.marquee[data-active="true"] .marquee-track {
+  animation-play-state: running;
+}
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+[data-motion="still"] .marquee-track {
+  animation: none;
+}
+
+/* ---------- Pointer spotlight on glass cards (moves by transform only) ---------- */
+.spot {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.spot::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 22rem;
+  height: 22rem;
+  margin: -11rem 0 0 -11rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 14%, transparent), transparent 65%);
+  transform: translate3d(var(--sx, -40rem), var(--sy, -40rem), 0);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .spot:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ---------- One-time reveals (CSS; set up by useReveal) ---------- */
+.kinetic-word {
+  transition: transform 650ms var(--ease-spring);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+.kinetic[data-reveal="out"] .kinetic-word {
+  transform: translate3d(0, 110%, 0);
+}
+.draw-icon path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 900ms ease-out;
+  transition-delay: calc(150ms + var(--i, 0) * 120ms);
+}
+.draw-icon[data-reveal="out"] path {
+  stroke-dashoffset: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-word {
+    transition: opacity 250ms ease;
+  }
+  .kinetic[data-reveal="out"] .kinetic-word {
+    transform: none;
+    opacity: 0;
+  }
+  .draw-icon path {
+    transition: none;
+  }
+  .draw-icon[data-reveal="out"] path {
+    stroke-dashoffset: 0;
+  }
+}
+[data-motion="still"] .kinetic-word {
+  transition: opacity 250ms ease;
+}
+[data-motion="still"] .kinetic[data-reveal="out"] .kinetic-word {
+  transform: none;
+  opacity: 0;
+}
+[data-motion="still"] .draw-icon path {
+  transition: none;
+  stroke-dashoffset: 0;
+}

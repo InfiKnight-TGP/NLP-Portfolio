@@ -1,3 +1,5 @@
+import { KineticTitle } from "./motion/KineticTitle";
+
 export function SectionHeader({
   id,
   eyebrow,
@@ -6,15 +8,13 @@ export function SectionHeader({
 }: {
   id: string;
   eyebrow: string;
-  title: React.ReactNode;
+  title: string;
   children?: React.ReactNode;
 }) {
   return (
     <header>
       <p className="eyebrow">{eyebrow}</p>
-      <h2 id={`${id}-title`} className="display mt-3 max-w-[48rem] text-[clamp(2.25rem,1.6rem+3.6vw,4.5rem)]">
-        {title}
-      </h2>
+      <KineticTitle id={`${id}-title`} text={title} className="display mt-3 max-w-[48rem] text-[clamp(2.25rem,1.6rem+3.6vw,4.5rem)]" />
       {children}
     </header>
   );
