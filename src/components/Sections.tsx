@@ -1,13 +1,15 @@
 import { fisher, handsOn, interaction, person } from "@/lib/content";
 import { SectionHeader } from "./SectionHeader";
 import { Pipeline } from "./hands-on/Pipeline";
+import { HandsPinned } from "./hands-on/HandsPinned";
 import { FlipCards } from "./interaction/FlipCards";
 import { Contact } from "./contact/Contact";
 
 export function HandsOn() {
   return (
     <section id="hands-on" aria-labelledby="hands-on-title" className="py-[clamp(5rem,12vw,9rem)]">
-      <div className="mx-auto grid max-w-[68rem] gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.35fr] lg:gap-16">
+      <HandsPinned />
+      <div className="mx-auto mt-16 grid max-w-[68rem] gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.35fr] lg:gap-16">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <SectionHeader id="hands-on" eyebrow="Hands-On Session" title="NLTK, step by step.">
             <p className="lead mt-5">{handsOn}</p>

@@ -80,6 +80,33 @@ tfidf = [
     for d in docs
 ]
 
+# Per-token view of one sentence for the scroll scene: every field is NLTK output.
+SCENE_INDEX = 1
+scene_sentence = sentences[SCENE_INDEX]
+scene_tokens = nltk.word_tokenize(scene_sentence)
+scene_tagged = nltk.pos_tag(scene_tokens)
+scene = {
+    "sentence": scene_sentence,
+    "tokens": [
+        {
+            "t": w,
+            "pos": t,
+            # removed by cleaning (not alphabetic) or by the stop-word list
+            "removed": "clean" if not w.isalpha() else ("stop" if w.lower() in stop else None),
+            "stem": stemmer.stem(w.lower()),
+            "lemma": lemmatizer.lemmatize(w.lower(), wordnet_pos(t)),
+        }
+        for w, t in scene_tagged
+    ],
+    "entities": [
+        [" ".join(w for w, _ in node.leaves()), node.label()]
+        for node in nltk.ne_chunk(scene_tagged)
+        if hasattr(node, "label")
+    ],
+    "bow": [[w, docs[SCENE_INDEX].count(w)] for w in dict.fromkeys(docs[SCENE_INDEX])],
+    "tfidf": [[w, round(collection.tf_idf(w, docs[SCENE_INDEX]), 3)] for w in dict.fromkeys(docs[SCENE_INDEX])],
+}
+
 out = {
     "nltkVersion": nltk.__version__,
     "text": TEXT,
@@ -92,6 +119,7 @@ out = {
     "entities": entities,
     "bow": {"vocab": vocab, "rows": bow},
     "tfidf": tfidf,
+    "scene": scene,
 }
 
 path = Path(__file__).resolve().parent.parent / "src" / "data" / "nltk-pipeline.json"

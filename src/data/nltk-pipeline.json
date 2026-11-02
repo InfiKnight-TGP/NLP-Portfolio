@@ -720,5 +720,189 @@
         0.081
       ]
     ]
-  ]
+  ],
+  "scene": {
+    "sentence": "The hands-on session used NLTK to turn words into tokens, stems and lemmas.",
+    "tokens": [
+      {
+        "t": "The",
+        "pos": "DT",
+        "removed": "stop",
+        "stem": "the",
+        "lemma": "the"
+      },
+      {
+        "t": "hands-on",
+        "pos": "JJ",
+        "removed": "clean",
+        "stem": "hands-on",
+        "lemma": "hands-on"
+      },
+      {
+        "t": "session",
+        "pos": "NN",
+        "removed": null,
+        "stem": "session",
+        "lemma": "session"
+      },
+      {
+        "t": "used",
+        "pos": "VBN",
+        "removed": null,
+        "stem": "use",
+        "lemma": "use"
+      },
+      {
+        "t": "NLTK",
+        "pos": "NNP",
+        "removed": null,
+        "stem": "nltk",
+        "lemma": "nltk"
+      },
+      {
+        "t": "to",
+        "pos": "TO",
+        "removed": "stop",
+        "stem": "to",
+        "lemma": "to"
+      },
+      {
+        "t": "turn",
+        "pos": "VB",
+        "removed": null,
+        "stem": "turn",
+        "lemma": "turn"
+      },
+      {
+        "t": "words",
+        "pos": "NNS",
+        "removed": null,
+        "stem": "word",
+        "lemma": "word"
+      },
+      {
+        "t": "into",
+        "pos": "IN",
+        "removed": "stop",
+        "stem": "into",
+        "lemma": "into"
+      },
+      {
+        "t": "tokens",
+        "pos": "NNS",
+        "removed": null,
+        "stem": "token",
+        "lemma": "token"
+      },
+      {
+        "t": ",",
+        "pos": ",",
+        "removed": "clean",
+        "stem": ",",
+        "lemma": ","
+      },
+      {
+        "t": "stems",
+        "pos": "NNS",
+        "removed": null,
+        "stem": "stem",
+        "lemma": "stem"
+      },
+      {
+        "t": "and",
+        "pos": "CC",
+        "removed": "stop",
+        "stem": "and",
+        "lemma": "and"
+      },
+      {
+        "t": "lemmas",
+        "pos": "NN",
+        "removed": null,
+        "stem": "lemma",
+        "lemma": "lemma"
+      },
+      {
+        "t": ".",
+        "pos": ".",
+        "removed": "clean",
+        "stem": ".",
+        "lemma": "."
+      }
+    ],
+    "entities": [
+      [
+        "NLTK",
+        "ORGANIZATION"
+      ]
+    ],
+    "bow": [
+      [
+        "session",
+        1
+      ],
+      [
+        "use",
+        1
+      ],
+      [
+        "nltk",
+        1
+      ],
+      [
+        "turn",
+        1
+      ],
+      [
+        "word",
+        1
+      ],
+      [
+        "token",
+        1
+      ],
+      [
+        "stem",
+        1
+      ],
+      [
+        "lemma",
+        1
+      ]
+    ],
+    "tfidf": [
+      [
+        "session",
+        0.137
+      ],
+      [
+        "use",
+        0.137
+      ],
+      [
+        "nltk",
+        0.137
+      ],
+      [
+        "turn",
+        0.051
+      ],
+      [
+        "word",
+        0.051
+      ],
+      [
+        "token",
+        0.137
+      ],
+      [
+        "stem",
+        0.137
+      ],
+      [
+        "lemma",
+        0.137
+      ]
+    ]
+  }
 }
