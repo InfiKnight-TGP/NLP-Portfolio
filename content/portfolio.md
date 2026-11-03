@@ -35,6 +35,8 @@ Verified facts about Fisher (from the project report), usable on the site:
 - Evaluated per source group, with an error analysis and exact McNemar tests. Honest limitation: the central research question (several transliterations versus one) is not yet answered because the evaluation data has almost no Indic scam messages.
 - Screenshots: fisher-context-menu.png, fisher-result.png, fisher-bulk.png.
 - Team project with Rithik V. Guide: Dr. Sharmila Banu K.
+- Presentation (Google Slides): https://docs.google.com/presentation/d/12oQeGCH9z4YgJMjjyE-x8ThygU-HQtI6
+- Demo video (Loom): https://www.loom.com/share/6edba183f6c24d819f834e935416b0a6
 
 ## Hands On Session
 I learned the basic concepts of NLP using libraries such as NLTK during the hands-on session. I learned pre-processing techniques such as tokenisation, stop-word removal, stemming, lemmatisation and text cleaning. I also learned POS tagging, named entity recognition and frequency distribution to analyse text. Furthermore, I learned the basics of text vectorisation, such as bag of words and TF-IDF, which helped me understand how text can be turned into vectors.

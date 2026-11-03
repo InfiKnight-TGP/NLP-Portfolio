@@ -88,3 +88,13 @@ export const contact = [
   { label: "LinkedIn", handle: "dineshrajn", href: "https://www.linkedin.com/in/dineshrajn" },
   { label: "Email", handle: "dineshraj.n2023@vitstudent.ac.in", href: "mailto:dineshraj.n2023@vitstudent.ac.in" },
 ];
+
+// Fisher presentation and demo. Third-party content loads only when the visitor asks for it.
+export const media = {
+  slides: { label: "Presentation", href: "https://docs.google.com/presentation/d/12oQeGCH9z4YgJMjjyE-x8ThygU-HQtI6" },
+  video: {
+    label: "Demo video",
+    href: "https://www.loom.com/share/6edba183f6c24d819f834e935416b0a6",
+    embed: "https://www.loom.com/embed/6edba183f6c24d819f834e935416b0a6",
+  },
+};

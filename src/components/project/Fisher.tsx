@@ -1,7 +1,8 @@
-import { fisher } from "@/lib/content";
+import { fisher, media } from "@/lib/content";
 import { SectionHeader } from "../SectionHeader";
 import { DeviceMockup } from "./DeviceMockup";
 import { RegexDemo } from "./RegexDemo";
+import { MediaCard } from "./MediaCard";
 import { FisherPinned } from "./FisherPinned";
 
 const TONE: Record<string, string> = {
@@ -143,6 +144,17 @@ export function Fisher() {
             <h3 className="display text-[clamp(1.75rem,1.3rem+2vw,2.75rem)]">What I learned</h3>
             <p className="mt-4 text-[1.0625rem] text-fg-2">{fisher.learned}</p>
           </div>
+
+          <section id="demo" aria-labelledby="demo-title">
+            <h3 id="demo-title" className="display text-[clamp(1.75rem,1.3rem+2vw,2.75rem)]">
+              Presentation &amp; demo
+            </h3>
+            <div className="mt-8 grid gap-8 md:grid-cols-2">
+              {/* Slides: link only. The deck's title slide shows registration numbers, so it is not embedded. */}
+              <MediaCard label={media.slides.label} href={media.slides.href} icon="slides" note="Opens Google Slides in a new tab" />
+              <MediaCard label={media.video.label} href={media.video.href} embed={media.video.embed} icon="play" note="Loads Loom when you press play" />
+            </div>
+          </section>
         </div>
       </div>
     </section>
