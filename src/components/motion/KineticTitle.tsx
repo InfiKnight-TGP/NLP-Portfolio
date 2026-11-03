@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { useReveal } from "@/lib/useReveal";
 
 /**
@@ -14,12 +14,15 @@ export function KineticTitle({ text, id, className = "" }: { text: string; id?: 
   return (
     <h2 ref={ref} id={id} className={`kinetic ${className}`}>
       {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
-          <span className="kinetic-word inline-block" style={{ "--i": i } as React.CSSProperties}>
-            {w}
+        <Fragment key={i}>
+          <span className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+            <span className="kinetic-word inline-block" style={{ "--i": i } as React.CSSProperties}>
+              {w}
+            </span>
           </span>
+          {/* The space lives outside the inline-block mask, where it would be trimmed. */}
           {i < words.length - 1 && " "}
-        </span>
+        </Fragment>
       ))}
     </h2>
   );

@@ -15,6 +15,8 @@ python -m pip install -r scripts/requirements.txt
 python scripts/nltk_pipeline.py
 ```
 
+The same script writes the per-token data (`scene`) for the hands-on scroll scene.
+
 ## Develop
 
 Requires Node.js 20.9 or later.
@@ -33,14 +35,32 @@ npm test             # self-check for the simplified regex demo
 npm run build
 ```
 
-QA scripts (Playwright; run `npx playwright install chromium` once):
+QA scripts (Playwright; run `npx playwright install chromium` once). Start a production server first:
 
 ```bash
-npm run build && npm start                                  # in one terminal
-node scripts/shots.mjs http://localhost:3000 qa/shots       # 390/768/1440 × light/dark × motion/reduced
-node scripts/frames.mjs http://localhost:3000 qa/frames     # frame sequences of key animations
-node scripts/lighthouse.mjs http://localhost:3000 3         # mobile Lighthouse, 3 runs
+npm run build && npm start                                   # in one terminal, serves http://localhost:3000
 ```
+
+| Command | What it does |
+| --- | --- |
+| `node scripts/shots.mjs http://localhost:3000 qa/shots` | Full-page screenshots at 390/768/1440 × light/dark × motion/reduced; flags horizontal overflow and console errors |
+| `node scripts/scenes.mjs http://localhost:3000 qa/scenes hero stars-scene case-scene fisher-scene hands-scene` | Contact sheets of the scroll scenes at 0/25/50/75/100 % progress, 390 and 1440 wide, light/dark/reduced |
+| `node scripts/frames.mjs http://localhost:3000 qa/frames` | Frame sequences of interactions (flick, rubber-band, sheet, carousel, vector drag, card flip) |
+| `node scripts/scroll-video.mjs http://localhost:3000 qa/video 1440 900` | Records a full-page scroll (.webm) and samples 24 frames from it into a review sheet |
+| `node scripts/perf.mjs http://localhost:3000 390 844` | 4× CPU throttle: long tasks during load and during scrolling/dragging, frame-time percentiles, top functions |
+| `node scripts/lighthouse.mjs http://localhost:3000 5` | Mobile Lighthouse, 5 runs |
+
+`qa/` is git-ignored.
+
+## Motion
+
+- **Pause motion** in the nav (and the system reduced-motion setting) switches every scene to its final composition with short cross-fades and stops all loops.
+- The four pinned scenes (stars, case study, Fisher, hands-on) are driven by native scroll; their heavy layers load only after the first scroll, pointer or key input, in idle time.
+- The hero dot intro starts in idle time after the page has loaded and painted.
+
+## Presentation and demo
+
+The Fisher section links the Google Slides deck and the Loom demo. Nothing is requested from Google or Loom until the visitor presses play or open. The Loom player loads in place; the Slides deck is a link only, because its title slide shows registration numbers.
 
 ## Deploy to Vercel
 
