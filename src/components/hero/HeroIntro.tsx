@@ -18,6 +18,26 @@ export function HeroIntro({ titleId }: { titleId: string }) {
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    let raf = 0;
+    let idle = 0;
+    let cancelled = false;
+    // Canvas work waits for the window load event and a painted frame, then idle time:
+    // it never competes with hydration or the first paint.
+    const ric = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1));
+    const schedule = () =>
+      requestAnimationFrame(() => {
+        if (!cancelled) idle = ric(setup, { timeout: 200 });
+      });
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", schedule);
+      (window.cancelIdleCallback ?? window.clearTimeout)(idle);
+      cancelAnimationFrame(raf);
+    };
+
+    function setup() {
     const start = performance.now();
     const cv = canvas.current;
     const title = document.getElementById(titleId);
@@ -51,7 +71,7 @@ export function HeroIntro({ titleId }: { titleId: string }) {
     }
 
     const coarse = matchMedia("(pointer: coarse)").matches;
-    const max = coarse ? 450 : 1000;
+    const max = coarse ? 270 : 1000; // 40% fewer on touch devices
     const step = Math.max(2, Math.round(size / 26));
     const px = o.getImageData(0, 0, off.width, off.height).data;
     const ox = tr.left - box.left;
@@ -64,6 +84,8 @@ export function HeroIntro({ titleId }: { titleId: string }) {
 
     const W = box.width;
     const H = box.height;
+    // Starting later (idle time) compresses the sweep so the dots still land at LAND with the text.
+    const fit = Math.min(1, Math.max(0.15, (LAND - start - 450) / 870));
     const dots: Dot[] = keep.map(([tx, ty]) => ({
       x: Math.random() * W,
       y: Math.random() * H,
@@ -71,7 +93,7 @@ export function HeroIntro({ titleId }: { titleId: string }) {
       vy: (Math.random() - 0.5) * 30,
       tx,
       ty,
-      delay: 300 + (tx / W) * 450 + Math.random() * 120, // sweep left to right
+      delay: fit * (300 + (tx / W) * 450 + Math.random() * 120), // sweep left to right
       accent: Math.random() < 0.12,
     }));
 
@@ -79,7 +101,6 @@ export function HeroIntro({ titleId }: { titleId: string }) {
     const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#0066cc";
     const w = (2 * Math.PI) / 0.45; // spring response 0.45 s, critically damped
     const dot = 1.6;
-    let raf = 0;
     let last = start;
 
     const frame = (now: number) => {
@@ -118,7 +139,7 @@ export function HeroIntro({ titleId }: { titleId: string }) {
     }
 
     raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
+    }
   }, [titleId]);
 
   return (
