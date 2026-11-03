@@ -57,7 +57,7 @@ export const fisher = {
     "By working on this project, I learned how to design and build an NLP system that solves a real problem. I learned how to handle scam messages in Indian languages using clear, rule-based methods, including normalising Unicode text, handling Indic scripts and Romanised code-mixing. I learned how to create transliteration suggestions and how to measure the performance of my system using source-wise metrics, error analysis and McNemar’s test. I also learned about privacy by design when building browser extensions, as well as automated testing and continuous integration.",
   honesty:
     "Finally, I learned the importance of being honest about findings, being aware of limitations, and not making assumptions that the evidence cannot support.",
-  team: "Team project with Rithik V. Guide: Dr. Sharmila Banu K.",
+  team: "Team project with Rithik M. Guide: Dr. Sharmila Banu K.",
   results: [
     { label: "High-risk patterns found", tone: "high" },
     { label: "Worth a closer look", tone: "review" },
