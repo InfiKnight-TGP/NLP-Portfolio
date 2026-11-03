@@ -35,6 +35,7 @@ Verified facts about Fisher (from the project report), usable on the site:
 - Evaluated per source group, with an error analysis and exact McNemar tests. Honest limitation: the central research question (several transliterations versus one) is not yet answered because the evaluation data has almost no Indic scam messages.
 - Screenshots: fisher-context-menu.png, fisher-result.png, fisher-bulk.png.
 - Team project with Rithik V. Guide: Dr. Sharmila Banu K.
+- Photos: public/presenting-1.jpg and public/presenting-2.jpg, captioned "Presentation" (1 of 2, 2 of 2).
 - Presentation (Google Slides): https://docs.google.com/presentation/d/12oQeGCH9z4YgJMjjyE-x8ThygU-HQtI6
 - Demo video (Loom): https://www.loom.com/share/6edba183f6c24d819f834e935416b0a6
 

@@ -3,6 +3,7 @@ import { SectionHeader } from "../SectionHeader";
 import { DeviceMockup } from "./DeviceMockup";
 import { RegexDemo } from "./RegexDemo";
 import { MediaCard } from "./MediaCard";
+import { Presenting } from "./Presenting";
 import { FisherPinned } from "./FisherPinned";
 
 const TONE: Record<string, string> = {
@@ -144,6 +145,8 @@ export function Fisher() {
             <h3 className="display text-[clamp(1.75rem,1.3rem+2vw,2.75rem)]">What I learned</h3>
             <p className="mt-4 text-[1.0625rem] text-fg-2">{fisher.learned}</p>
           </div>
+
+          <Presenting />
 
           <section id="demo" aria-labelledby="demo-title">
             <h3 id="demo-title" className="display text-[clamp(1.75rem,1.3rem+2vw,2.75rem)]">

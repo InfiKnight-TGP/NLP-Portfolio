@@ -98,3 +98,9 @@ export const media = {
     embed: "https://www.loom.com/embed/6edba183f6c24d819f834e935416b0a6",
   },
 };
+
+// Photos of the Fisher presentation (cropped, metadata stripped). Alt text describes only what is visible.
+export const presenting = [
+  { caption: "Presentation", alt: "A person presenting slides in a classroom, gesturing with both hands, as students watch" },
+  { caption: "Presentation", alt: "A person in a classroom pointing at a slide projected on a whiteboard, as students watch" },
+];
